@@ -1,0 +1,21 @@
+# Configuration: https://dependabot.com/docs/config-file/
+# Docs
+# - https://docs.github.com/en/github/administering-a-repository/keeping-your-dependencies-updated-automatically
+# - https://docs.github.com/en/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file
+version: 2
+updates:
+  # Maintain dependencies for pip
+  - package-ecosystem: "pip"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: ⬆
+
+  # Maintain dependencies for GitHub Actions
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: ⬆
