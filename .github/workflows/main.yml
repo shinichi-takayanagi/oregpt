@@ -68,4 +68,4 @@ jobs:
         run: poetry run mypy . --explicit-package-bases
 
       - name: Run pytest
-        run: poetry run pytest --integration -vv tests/*
+        run: poetry run pytest -vv tests/*
