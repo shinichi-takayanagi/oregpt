@@ -11,7 +11,7 @@ jobs:
     strategy:
       matrix:
         os: [Ubuntu, macOS, Windows]
-        python-version: ["3.7", "3.8", "3.9", "3.10", "3.11"]
+        python-version: ["3.9", "3.10", "3.11"]
         include:
           - os: Ubuntu
             image: ubuntu-22.04
@@ -56,8 +56,14 @@ jobs:
       - name: Install dependencies
         run: poetry install
 
+      - name: black
+        run: poetry run black . --check
+
+      - name: isort
+        run: poetry run isort . --check-only
+
       - name: Run mypy
-        run: poetry run mypy
+        run: poetry run mypy .
 
       - name: Run pytest
-        run: poetry run pytest --integration -v
+        run: poetry run pytest --integration -vv tests/*

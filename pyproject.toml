@@ -44,6 +44,7 @@ extend-exclude = '''
 
 # === Isort ===
 [tool.isort]
+profile = "black"
 multi_line_output = 3
 include_trailing_comma = true
 force_grid_wrap = 0
@@ -64,16 +65,14 @@ asyncio_mode = "auto"
 log_cli = true
 
 [tool.mypy]
-python_version = "3.10"
-files = ['*.py', '**/*.py']
-no_site_packages = true
-follow_imports = "skip"
-ignore_missing_imports = true
-strict_optional = false
-warn_return_any = false
-warn_unused_ignores = true
-show_error_codes = true
-no_implicit_optional = true
+check_untyped_defs = true
+check_untyped_defs = True
 disallow_untyped_defs = true
 disallow_any_generics = true
-check_untyped_defs = true
+ignore_missing_imports = true
+no_implicit_optional = true
+no_site_packages = true
+show_error_codes = true
+strict_optional = true
+warn_return_any = true
+warn_unused_ignores = true
