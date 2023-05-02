@@ -18,9 +18,9 @@ class ChatBot:
         # https://community.openai.com/t/the-system-role-how-it-influences-the-chat-behavior/87353
         # https://learn.microsoft.com/ja-jp/azure/cognitive-services/openai/how-to/chatgpt?pivots=programming-language-chat-completions#system-role
         # self._log = [{"role": "system", "content": f"You are a chat bot."}]
-        self._log = []
+        self._log: list[dict[str, str]] = []
 
-    def respond(self, message: str):
+    def respond(self, message: str) -> str:
         self._log.append({"role": "user", "content": message})
         # API Reference: https://platform.openai.com/docs/api-reference/completions/create
         response = openai.ChatCompletion.create(

@@ -16,7 +16,7 @@ bold = "\033[1m"
 reset = "\033[0m"
 
 
-def main():
+def main() -> None:
     bot = ChatBot(data["model"])
     while True:
         print("")

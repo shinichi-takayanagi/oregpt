@@ -1,4 +1,4 @@
-name:
+name: ci
 
 on:
   push:
@@ -13,7 +13,7 @@ jobs:
     strategy:
       matrix:
         os: [Ubuntu, macOS, Windows]
-        python-version: ["3.9", "3.10", "3.11"]
+        python-version: ["3.10", "3.11"]
         include:
           - os: Ubuntu
             image: ubuntu-22.04
@@ -65,7 +65,7 @@ jobs:
         run: poetry run isort . --check-only
 
       - name: Run mypy
-        run: poetry run mypy .
+        run: poetry run mypy . --explicit-package-bases
 
       - name: Run pytest
         run: poetry run pytest --integration -vv tests/*
