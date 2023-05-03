@@ -1,9 +1,9 @@
 import os
+from typing import Any
 
 import openai
 import yaml
 
-from typing import Any
 from oregpt.chat_bot import ChatBot
 
 blue = "\033[34m"
