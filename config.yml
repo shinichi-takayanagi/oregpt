@@ -1,0 +1,5 @@
+log: /tmp/oregpt/
+openai:
+    model: gpt-3.5-turbo
+# You can also specify OpenAI's API key here
+#     api_key: <your-api-key>
