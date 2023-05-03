@@ -56,12 +56,11 @@ skip_glob = []
 
 # === Pytest ===
 [tool.pytest.ini_options]
-norecursedirs = ["venv", ".venv", ".env", "migrations",]
-testpaths = ["tests",]
-python_files = ["test*.py", "*test.py"]
-python_functions = ["*_test", "test_*"]
+norecursedirs = ["venv", ".venv", ".env"]
+testpaths = [
+    "tests",
+]
 console_output_style = "progress"
-asyncio_mode = "auto"
 log_cli = true
 
 [tool.mypy]
