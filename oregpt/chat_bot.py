@@ -5,19 +5,21 @@ from typing import Callable
 
 import openai
 
-
-def _streaming_stdout(message: str) -> None:
-    print(message, end="")
+from oregpt.stdinout import StdInOut
 
 
 class ChatBot:
-    def __init__(self, model: str, streaming_callback_handler: Callable[[str], None] = _streaming_stdout):
-        self._streaming_callback_handler = streaming_callback_handler
+    def __init__(self, model: str, std_in_out: StdInOut):
+        self._std_in_out = std_in_out
         # Model list: gpt-4, gpt-4-0314, gpt-4-32k, gpt-4-32k-0314, gpt-3.5-turbo, gpt-3.5-turbo-0301
         # https://platform.openai.com/docs/models/overview
         self._model = model
 
         self._initialize_log()
+
+    @property
+    def log(self) -> list[dict[str, str]]:
+        return self._log
 
     def _initialize_log(self) -> None:
         # TODO
@@ -38,11 +40,12 @@ class ChatBot:
             stream=True,
         )
         content = ""
-        self._streaming_callback_handler("OreGPT: ")
+        self._std_in_out.print_assistant_prefix()
         for chunk in response:
             chunked_content = chunk["choices"][0]["delta"].get("content", "")
-            self._streaming_callback_handler(chunked_content)
+            self._std_in_out.print_assistant(chunked_content)
             content += chunked_content
+        self._std_in_out.print_assistant("\n")
         self._log.append({"role": "assistant", "content": content})
         return content
 

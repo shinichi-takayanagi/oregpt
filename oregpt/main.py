@@ -3,13 +3,10 @@ from typing import Any
 
 import openai
 import yaml
+from prompt_toolkit.styles import Style
 
 from oregpt.chat_bot import ChatBot
-
-blue = "\033[34m"
-green = "\033[32m"
-bold = "\033[1m"
-reset = "\033[0m"
+from oregpt.stdinout import StdInOut
 
 
 def initialize_open_ai_key(data: dict[str, Any]) -> None:
@@ -27,22 +24,29 @@ def main() -> None:
     with open("config.yml", "r") as yamlfile:
         data = yaml.load(yamlfile, Loader=yaml.FullLoader)
     initialize_open_ai_key(data)
-    bot = ChatBot(data["openai"]["model"])
+    std_in_out = StdInOut(
+        Style.from_dict(
+            {"": data["style"]["user"], "assistant": data["style"]["assistant"], "system": data["style"]["system"]}
+        ),
+        lambda: "To exit, type q, quit or exit",
+    )
+    bot = ChatBot(data["openai"]["model"], std_in_out)
+
     while True:
-        print("\n")
-        prompt = input(bold + blue + "Me: " + reset).lower()
-        print("\n")
-        match prompt:
+        text = std_in_out.input().lower()
+        match text:
             case "exit" | "quit" | "q":
                 break
-            case "clear" | "reboot":
+            case "clear":
                 bot.clear()
-                print(f"Clear all conversation history")
+                std_in_out.print_system("Clear all conversation history")
+            case "history":
+                std_in_out.print_system(str(bot.log))
             case "save":
                 file_name = bot.save(data["log"])
-                print(f"Save all conversation history in {file_name}")
+                std_in_out.print_system(f"Save all conversation history in {file_name}")
             case _:
-                bot.respond(prompt)
+                bot.respond(text)
 
 
 if __name__ == "__main__":
