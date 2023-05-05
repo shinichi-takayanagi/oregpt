@@ -1,15 +1,31 @@
 [tool.poetry]
 name = "oregpt"
 version = "0.1.0"
-description = ""
+description = "A tiny GPT CLI tool"
 authors = ["Shinichi Takayanagi <shinichi.takayanagi@gmail.com>"]
+homepage = "https://github.com/shinichi-takayanagi/oregpt"
+repository = "https://github.com/shinichi-takayanagi/oregpt"
 license = "MIT"
 readme = "README.md"
+keywords = ["gpt-chatbot", "gpt-cli", "openai-cli"]
+classifiers = [
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "License :: OSI Approved :: MIT License",
+  "Topic :: Utilities",
+]
+include = [
+    "LICENSE",
+]
+
+[tool.poetry.scripts]
+oregpt = "oregpt.main:main"
 
 [tool.poetry.dependencies]
 python = "^3.10"
 openai = "^0.27.6"
 pyyaml = "^6.0"
+prompt-toolkit = "^3.0.38"
 
 
 [tool.poetry.group.test.dependencies]
