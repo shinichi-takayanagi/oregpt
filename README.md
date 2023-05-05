@@ -8,9 +8,9 @@ You can chat with the GPT model developped by OpenAI and save the conversation a
 [![python-version](https://img.shields.io/pypi/pyversions/oregpt.svg)](https://pypi.org/project/oregpt/)
 [![pypi](https://img.shields.io/pypi/v/oregpt?color=%2334D058&label=pypi%20package)](https://pypi.org/project/oregpt)
 
+![oregpt](https://user-images.githubusercontent.com/24406372/236361796-4a38af2b-b7b6-48e3-8ab6-dcba0be1532f.gif)
 
 ## Installation
-
 ### Get your own OpenAI API Key
 Assuming you have an environment variable with key named `OPENAI_API_KEY`.
 If you don't have a OpenAI API key [visit here](https://platform.openai.com/account/api-keys), generate one and add it as an environment variable

@@ -9,6 +9,7 @@ def test_chat_bot_respond(monkeypatch):
     def _create(*args, **kwargs):
         return [{"choices": [{"delta": {"content": "Yep"}}]}]
 
+    # Set monkey patch to avoid this error: https://github.com/prompt-toolkit/python-prompt-toolkit/issues/406
     def _print(*args, **kwargs):
         pass
 
