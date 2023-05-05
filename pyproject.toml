@@ -3,8 +3,25 @@ name = "oregpt"
 version = "0.1.0"
 description = ""
 authors = ["Shinichi Takayanagi <shinichi.takayanagi@gmail.com>"]
+homepage = "https://github.com/y-bar/netcleanser"
+repository = "https://github.com/y-bar/netcleanser"
 license = "MIT"
 readme = "README.md"
+keywords = ["gpt-chatbot", "gpt-cli", "openai-cli]
+classifiers = [
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "License :: OSI Approved :: MIT License",
+  "Topic :: Utilities",
+]
+include = [
+    "LICENSE",
+]
+
+[project.scripts]
+oregpt = "oregpt.oregpt:main"
+[tool.poetry.scripts]
+my-script = "my_package:start"
 
 [tool.poetry.dependencies]
 python = "^3.10"
