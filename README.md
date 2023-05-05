@@ -27,10 +27,23 @@ You can install the package using pip:
 $ pip install oregpt
 ```
 
-
 ## Usage
-
 Once you have installed oregpt, you can run it by typing:
 ```bash
 $ oregpt
+```
+
+## Configuration
+You can specify the place of conversation `log` , style (color etc) and the model provided by OpenAI in `~/.oregpt/config.yml`
+```
+❯ cat ~/.oregpt/config.yml
+log: /tmp/oregpt/
+openai:
+    model: gpt-3.5-turbo
+# You can also specify OpenAI's API key here
+#     api_key: <your-api-key>
+style:
+    user: "#00BEFE"
+    assistant: "#87CEEB"
+    system: "#cc0000"
 ```

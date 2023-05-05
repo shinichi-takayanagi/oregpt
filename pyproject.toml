@@ -7,7 +7,7 @@ homepage = "https://github.com/shinichi-takayanagi/oregpt"
 repository = "https://github.com/shinichi-takayanagi/oregpt"
 license = "MIT"
 readme = "README.md"
-keywords = ["gpt-chatbot", "gpt-cli", "openai-cli]
+keywords = ["gpt-chatbot", "gpt-cli", "openai-cli"]
 classifiers = [
   "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
@@ -19,7 +19,7 @@ include = [
 ]
 
 [tool.poetry.scripts]
-oregpt = "oregpt:main"
+oregpt = "oregpt.main:main"
 
 [tool.poetry.dependencies]
 python = "^3.10"

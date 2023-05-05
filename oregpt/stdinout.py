@@ -13,7 +13,7 @@ class StdInOut:
     bottom_toolbar: Optional[AnyFormattedText] = None
 
     def input(self) -> str:
-        text = FormattedText([("", "<Me> ")])
+        text = FormattedText([("class:user", "<Me> ")])
         return str(prompt(text, style=self.style, bottom_toolbar=self.bottom_toolbar))
 
     def _print(self, message: str, type: str, end: str) -> None:
