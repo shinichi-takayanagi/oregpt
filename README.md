@@ -1,6 +1,6 @@
 # oregpt
-GPT CLI tool for me.
-It's a very minimal cli prompt, where you can chat and save the conversation as json.
+A tiny GPT CLI tool.
+You can chat with the GPT model developped by OpenAI and save the conversation as json.
 
 ![workflow](https://github.com/shinichi-takayanagi/oregpt/actions/workflows/main.yml/badge.svg)
 [![license](https://img.shields.io/github/license/shinichi-takayanagi/oregpt.svg)](https://github.com/shinichi-takayanagi/oregpt/blob/master/LICENSE)
