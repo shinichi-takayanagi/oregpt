@@ -18,10 +18,8 @@ include = [
     "LICENSE",
 ]
 
-[project.scripts]
-oregpt = "oregpt.oregpt:main"
 [tool.poetry.scripts]
-my-script = "my_package:start"
+oregpt = "oregpt.oregpt:main"
 
 [tool.poetry.dependencies]
 python = "^3.10"
