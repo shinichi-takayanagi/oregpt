@@ -31,16 +31,17 @@ class ChatBot:
 
     def respond(self, message: str) -> str:
         self._log.append({"role": "user", "content": message})
-        # API Reference: https://platform.openai.com/docs/api-reference/completions/create
-        response = openai.ChatCompletion.create(
-            model=self._model,
-            messages=self._log,
-            max_tokens=1024,
-            temperature=0,
-            stream=True,
-        )
+        with self._std_in_out.print_assistant_thinking():
+            # API Reference: https://platform.openai.com/docs/api-reference/completions/create
+            response = openai.ChatCompletion.create(
+                model=self._model,
+                messages=self._log,
+                max_tokens=1024,
+                temperature=0,
+                stream=True,
+            )
+
         content = ""
-        self._std_in_out.print_assistant_prefix()
         for chunk in response:
             chunked_content = chunk["choices"][0]["delta"].get("content", "")
             self._std_in_out.print_assistant(chunked_content)

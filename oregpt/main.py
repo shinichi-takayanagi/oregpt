@@ -32,41 +32,33 @@ def initialize_open_ai_key(config: dict[str, Any]) -> None:
     raise LookupError("OpenAI's API key was not found in config.yml and environment variables")
 
 
-def make_std_in_out(config: dict[str, Any]) -> StdInOut:
-    return StdInOut(
-        Style.from_dict(
-            {
-                "": config["user"],  # Default color which is used for "input" should be the same with user
-                "user": config["user"],
-                "assistant": config["assistant"],
-                "system": config["system"],
-            }
-        ),
-        lambda: "To exit, type q, quit or exit",
-    )
-
-
-def main() -> None:
+def main() -> int:
     config = load_config()
     initialize_open_ai_key(config["openai"])
-    std_in_out = make_std_in_out(config["style"])
+    std_in_out = StdInOut(config["character"], lambda: "To exit, type q, quit, exit, or Ctrl + C")
     bot = ChatBot(config["openai"]["model"], std_in_out)
 
-    while True:
-        text = std_in_out.input().lower()
-        match text:
-            case "exit" | "quit" | "q":
-                break
-            case "clear":
-                bot.clear()
-                std_in_out.print_system("Clear all conversation history")
-            case "history":
-                std_in_out.print_system(str(bot.log))
-            case "save":
-                file_name = bot.save(config["log"])
-                std_in_out.print_system(f"Save all conversation history in {file_name}")
-            case _:
-                bot.respond(text)
+    try:
+        while True:
+            message = std_in_out.input().lower()
+            match message:
+                case "exit" | "quit" | "q":
+                    break
+                case "clear":
+                    bot.clear()
+                    std_in_out.print_system("Clear all conversation history")
+                case "history":
+                    std_in_out.print_system(str(bot.log))
+                case "save":
+                    file_name = bot.save(config["log"])
+                    std_in_out.print_system(f"Save all conversation history in {file_name}")
+                case _:
+                    bot.respond(message)
+    except KeyboardInterrupt:
+        return 0
+    except Exception as e:
+        raise Exception(f"Something happened: {str(e)}") from e
+    return 0
 
 
 if __name__ == "__main__":

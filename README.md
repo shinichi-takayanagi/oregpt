@@ -1,4 +1,5 @@
 # oregpt
+
 A tiny GPT CLI tool.
 You can chat with the GPT model developped by OpenAI and save the conversation as json.
 
@@ -34,16 +35,26 @@ $ oregpt
 ```
 
 ## Configuration
-You can specify the place of conversation `log` , style (color etc) and the model provided by OpenAI in `~/.oregpt/config.yml`
-```
+You can specify the place of conversation `log`,
+[style (color etc)](https://python-prompt-toolkit.readthedocs.io/en/master/pages/advanced_topics/styling.html)
+and
+[the model supported in /v1/chat/completions endpoint provided by OpenAI](https://platform.openai.com/docs/models/overview)
+in `~/.oregpt/config.yml`
+```yaml
 ❯ cat ~/.oregpt/config.yml
 log: /tmp/oregpt/
 openai:
     model: gpt-3.5-turbo
 # You can also specify OpenAI's API key here
 #     api_key: <your-api-key>
-style:
-    user: "#00BEFE"
-    assistant: "#87CEEB"
-    system: "#cc0000"
+character:
+    user:
+        name: Me
+        style: "#00BEFE"
+    assistant:
+        name: AI
+        style: "#87CEEB"
+    system:
+        name: System
+        style: "#cc0000"
 ```
