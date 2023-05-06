@@ -8,7 +8,7 @@
 A tiny GPT CLI tool.
 You can chat with the GPT model developped by OpenAI and save the conversation as json.
 
-![oregpt](https://user-images.githubusercontent.com/24406372/236361796-4a38af2b-b7b6-48e3-8ab6-dcba0be1532f.gif)
+![oregpt](https://user-images.githubusercontent.com/24406372/236609166-0f2385b1-fd9e-4810-b80d-c19c44d13411.gif)
 
 ## Installation
 ### Get your own OpenAI API Key
