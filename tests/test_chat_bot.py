@@ -1,3 +1,5 @@
+import contextlib
+
 from openai import ChatCompletion
 from prompt_toolkit.styles import Style
 
@@ -13,9 +15,15 @@ def test_chat_bot_respond(monkeypatch):
     def _print(*args, **kwargs):
         pass
 
+    @contextlib.contextmanager
+    def _print_as_contextmanager(*args, **kwargs):
+        yield
+
     monkeypatch.setattr(ChatCompletion, "create", _create)
     monkeypatch.setattr(StdInOut, "_print", _print)
+    monkeypatch.setattr(StdInOut, "print_assistant_thinking", _print_as_contextmanager)
 
-    bot = ChatBot("hoge", StdInOut(Style.from_dict({}), None))
+    bot = ChatBot("ultra-ai", StdInOut({}, lambda: "Dummy"))
+
     answer = bot.respond("Hello, world")
     assert "Yep" == answer
