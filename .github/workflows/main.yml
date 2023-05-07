@@ -61,8 +61,8 @@ jobs:
       - name: Install dependencies
         run: poetry install
 
-      - name: black
-        run: poetry run black . --check
+      - name: Remove unused variables/imports
+        run: poetry run poetry run autoflake --remove-unused-variables --remove-all-unused-imports -r -c .
 
       - name: isort
         run: poetry run isort . --check-only
