@@ -1,10 +1,10 @@
 import os
+import pathlib
 import shutil
 from typing import Any
 
 import openai
 import yaml
-import pathlib
 
 from oregpt.chat_bot import ChatBot
 from oregpt.stdinout import StdInOut
