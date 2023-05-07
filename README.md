@@ -40,7 +40,7 @@ and
 [the model supported in /v1/chat/completions endpoint provided by OpenAI](https://platform.openai.com/docs/models/overview)
 in `~/.config/oregpt/config.yml`
 ```yaml
-❯ cat ~/.oregpt/config.yml
+❯ cat ~/.config/oregpt/config.yml
 log: /tmp/oregpt/
 openai:
     model: gpt-3.5-turbo
