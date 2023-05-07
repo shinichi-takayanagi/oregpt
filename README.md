@@ -38,7 +38,7 @@ You can specify the place of conversation `log`,
 [style (color etc)](https://python-prompt-toolkit.readthedocs.io/en/master/pages/advanced_topics/styling.html)
 and
 [the model supported in /v1/chat/completions endpoint provided by OpenAI](https://platform.openai.com/docs/models/overview)
-in `~/.oregpt/config.yml`
+in `~/.config/oregpt/config.yml`
 ```yaml
 ❯ cat ~/.oregpt/config.yml
 log: /tmp/oregpt/
