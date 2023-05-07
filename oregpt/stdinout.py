@@ -1,10 +1,9 @@
 import contextlib
-import copy
 import sys
 from dataclasses import dataclass
-from typing import Any, Callable, ContextManager, Iterator, Optional
+from typing import Any, Iterator, Optional
 
-from prompt_toolkit import HTML, print_formatted_text, prompt
+from prompt_toolkit import print_formatted_text, prompt
 from prompt_toolkit.formatted_text import AnyFormattedText, FormattedText
 from prompt_toolkit.styles import Style
 

@@ -1,10 +1,10 @@
 import os
+import pathlib
 import shutil
 from typing import Any
 
 import openai
 import yaml
-from prompt_toolkit.styles import Style
 
 from oregpt.chat_bot import ChatBot
 from oregpt.stdinout import StdInOut
@@ -12,10 +12,11 @@ from oregpt.stdinout import StdInOut
 
 def load_config() -> dict[str, Any]:
     # TODO: Find more sophisticated way to do this...
-    config_file = os.path.join(os.path.expanduser("~"), ".oregpt/config.yml")
+    config_file = os.path.join(os.path.expanduser("~"), ".config/oregpt/config.yml")
     if not os.path.exists(config_file):
         os.makedirs(os.path.dirname(config_file), exist_ok=True)
-        shutil.copyfile("config.yml", config_file)
+        directory = pathlib.Path(__file__).parent.resolve()
+        shutil.copyfile(directory / "resources/config.yml", config_file)
     with open(config_file, "r") as file:
         config: dict[str, Any] = yaml.load(file, Loader=yaml.FullLoader)
     return config

@@ -64,11 +64,14 @@ jobs:
       - name: black
         run: poetry run black . --check
 
+      - name: autoflake
+        run: poetry run poetry run autoflake --remove-unused-variables --remove-all-unused-imports -r -c .
+
       - name: isort
         run: poetry run isort . --check-only
 
-      - name: Run mypy
+      - name: mypy
         run: poetry run mypy . --explicit-package-bases
 
-      - name: Run pytest
+      - name: pytest
         run: poetry run pytest -vv

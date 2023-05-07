@@ -1,7 +1,6 @@
 import contextlib
 
 from openai import ChatCompletion
-from prompt_toolkit.styles import Style
 
 from oregpt.chat_bot import ChatBot
 from oregpt.stdinout import StdInOut
