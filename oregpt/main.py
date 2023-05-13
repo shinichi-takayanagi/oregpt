@@ -2,10 +2,12 @@ import os
 import pathlib
 import shutil
 from typing import Any
+
 import openai
 import yaml
 
 from oregpt.chat_bot import ChatBot
+from oregpt.command import CommandBuilder
 from oregpt.stdinout import StdInOut
 
 

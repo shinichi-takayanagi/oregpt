@@ -1,6 +1,6 @@
-from typing import Any
 import sys
 from abc import ABC, abstractmethod
+from typing import Any
 
 from oregpt.chat_bot import ChatBot
 from oregpt.stdinout import StdInOut
@@ -14,9 +14,12 @@ class CommandBuilder:
         self._bot = bot
         self._std_in_out = std_in_out
 
-    def build(self, command: str):
+    def build(self, message: str):
+        messages = message.split(" ")
+        command = messages[0].strip()
+        args = (messages[1:] if len(messages) >= 2 else "",)
         return (
-            class_type(self._config, self._bot, self._std_in_out)
+            class_type(self._config, self._bot, self._std_in_out, args)
             if (class_type := self.__class__.classes.get(command))
             else None
         )
@@ -24,14 +27,16 @@ class CommandBuilder:
 
 def register(cls):
     for representation in cls.representations:
-        CommandBuilder.classes[representation] = cls
+        CommandBuilder.classes["/" + representation] = cls
     return cls
 
 
 class Command(ABC):
-    def __init__(self, bot: ChatBot, std_in_out: StdInOut):
+    def __init__(self, config: dict[str, Any], bot: ChatBot, std_in_out: StdInOut, args: str):
+        self._config = config
         self._bot = bot
         self._std_in_out = std_in_out
+        self._args = args
 
     @abstractmethod
     def execute(self) -> None:
@@ -40,6 +45,8 @@ class Command(ABC):
 
 @register
 class ExitCommand(Command):
+    """Exit from this chat tool"""
+
     representations: list[str] = ["exit", "quit", "q"]
 
     def execute(self) -> None:
@@ -48,6 +55,8 @@ class ExitCommand(Command):
 
 @register
 class ClearCommand(Command):
+    """Clear chat history all"""
+
     representations: list[str] = ["clear"]
 
     def execute(self) -> None:
@@ -57,6 +66,8 @@ class ClearCommand(Command):
 
 @register
 class HistoryCommand(Command):
+    """Show chat history in json format"""
+
     representations: list[str] = ["history"]
 
     def execute(self) -> None:
@@ -65,8 +76,21 @@ class HistoryCommand(Command):
 
 @register
 class SaveCommand(Command):
+    """Save chat hisotry in json format"""
+
     representations: list[str] = ["save"]
 
     def execute(self) -> None:
         file_name = self._bot.save(self._config["log"])
         self._std_in_out.print_system(f"Save all conversation history in {file_name}")
+
+
+@register
+class HelpCommand(Command):
+    """Show all commands which you can use in this chat tool"""
+
+    representations: list[str] = ["help"]
+
+    def execute(self) -> None:
+        for k, v in CommandBuilder.classes.items():
+            self._std_in_out.print_system(f"{k}: {v.__doc__}")
