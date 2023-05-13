@@ -2,7 +2,6 @@ import os
 import pathlib
 import shutil
 from typing import Any
-
 import openai
 import yaml
 
@@ -38,27 +37,20 @@ def main() -> int:
     initialize_open_ai_key(config["openai"])
     std_in_out = StdInOut(config["character"], lambda: "To exit, type q, quit, exit, or Ctrl + C")
     bot = ChatBot(config["openai"]["model"], std_in_out)
+    command_builder = CommandBuilder(config, bot, std_in_out)
 
     try:
         while True:
             message = std_in_out.input().lower()
-            match message:
-                case "exit" | "quit" | "q":
-                    break
-                case "clear":
-                    bot.clear()
-                    std_in_out.print_system("Clear all conversation history")
-                case "history":
-                    std_in_out.print_system(str(bot.log))
-                case "save":
-                    file_name = bot.save(config["log"])
-                    std_in_out.print_system(f"Save all conversation history in {file_name}")
-                case _:
-                    bot.respond(message)
+            if command := command_builder.build(message):
+                command.execute()
+            else:
+                bot.respond(message)
     except KeyboardInterrupt:
         return 0
     except Exception as e:
         raise Exception(f"Something happened: {str(e)}") from e
+
     return 0
 
 
