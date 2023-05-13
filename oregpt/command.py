@@ -1,23 +1,23 @@
 import sys
 from abc import ABC, abstractmethod
-from typing import Any
+from typing import Any, Optional, Type
 
 from oregpt.chat_bot import ChatBot
 from oregpt.stdinout import StdInOut
 
 
 class CommandBuilder:
-    classes = dict({})
+    classes: dict[str, Type["Command"]] = dict({})
 
     def __init__(self, config: dict[str, Any], bot: ChatBot, std_in_out: StdInOut):
         self._config = config
         self._bot = bot
         self._std_in_out = std_in_out
 
-    def build(self, message: str):
+    def build(self, message: str) -> Optional["Command"]:
         messages = message.split(" ")
         command = messages[0].strip()
-        args = (messages[1:] if len(messages) >= 2 else "",)
+        args = messages[1:] if len(messages) >= 2 else [""]
         return (
             class_type(self._config, self._bot, self._std_in_out, args)
             if (class_type := self.__class__.classes.get(command))
@@ -25,14 +25,15 @@ class CommandBuilder:
         )
 
 
-def register(cls):
+def register(cls: Type["Command"]) -> None:
     for representation in cls.representations:
         CommandBuilder.classes["/" + representation] = cls
-    return cls
 
 
 class Command(ABC):
-    def __init__(self, config: dict[str, Any], bot: ChatBot, std_in_out: StdInOut, args: str):
+    representations: list[str] = []
+
+    def __init__(self, config: dict[str, Any], bot: ChatBot, std_in_out: StdInOut, args: list[str]):
         self._config = config
         self._bot = bot
         self._std_in_out = std_in_out
