@@ -65,7 +65,7 @@ jobs:
         run: poetry run black . --check
 
       - name: autoflake
-        run: poetry run poetry run autoflake --remove-unused-variables --remove-all-unused-imports -r -c .
+        run: poetry run poetry run autoflake -r -c .
 
       - name: isort
         run: poetry run isort . --check-only
