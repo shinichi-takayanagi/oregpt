@@ -1,5 +1,8 @@
+import os
+import pathlib
 import sys
 from abc import ABC, abstractmethod
+from datetime import datetime
 from typing import Any, Optional, Type
 
 from oregpt.chat_bot import ChatBot
@@ -17,7 +20,8 @@ class CommandBuilder:
     def build(self, message: str) -> Optional["Command"]:
         messages = message.split(" ")
         command = messages[0].strip()
-        args = messages[1:] if len(messages) >= 2 else [""]
+        args = messages[1:] if len(messages) >= 2 else []
+        args = list(filter(None, args))
         return (
             class_type(self._config, self._bot, self._std_in_out, args)
             if (class_type := self.__class__.classes.get(command))
@@ -75,6 +79,10 @@ class HistoryCommand(Command):
         self._std_in_out.print_system(str(self._bot.log))
 
 
+def _abspath(x: str) -> str:
+    return os.path.abspath(os.path.expanduser(x))
+
+
 @register
 class SaveCommand(Command):
     """Save chat hisotry in json format"""
@@ -82,8 +90,32 @@ class SaveCommand(Command):
     representations: list[str] = ["save"]
 
     def execute(self) -> None:
-        file_name = self._bot.save(self._config["log"])
+        file_name = ""
+        if len(self._args) == 1:
+            file_name = _abspath(self._args[0].strip())
+            directory = pathlib.Path(os.path.dirname(file_name))
+        if file_name == "":
+            directory = pathlib.Path(_abspath(self._config["log"]))
+            file_name = str(directory / datetime.now().strftime("log_%Y-%m-%d-%H-%M-%S.json"))
+        directory.mkdir(parents=True, exist_ok=True)
+        self._bot.save(file_name)
         self._std_in_out.print_system(f"Save all conversation history in {file_name}")
+
+
+@register
+class LoadCommand(Command):
+    """Load chat hisotry from a json file"""
+
+    representations: list[str] = ["load"]
+
+    def execute(self) -> None:
+        print(self._args)
+        if len(self._args) != 1:
+            self._std_in_out.print_system("Loaded file was not specified as an argument")
+            return
+        file_name = _abspath(self._args[0])
+        self._bot.load(file_name)
+        self._std_in_out.print_system(f"Loaded chat history from {file_name}")
 
 
 @register
