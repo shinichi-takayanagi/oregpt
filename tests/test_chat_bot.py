@@ -30,8 +30,7 @@ def patched_bot(monkeypatch):
 
 
 def test_respond(patched_bot):
-    answer = patched_bot.respond("Hello, world")
-    assert DUMMY_CONTENT == answer
+    assert DUMMY_CONTENT == patched_bot.respond("Hello, world")
 
 
 def test_save(tmp_path, patched_bot):
@@ -51,7 +50,7 @@ def test_load(tmp_path, patched_bot):
     patched_bot.respond(what_user_said)
     patched_bot.save(str(tmp_file))
     bot = ChatBot("THE AI", StdInOut({}, lambda: "Dummy"))
-    assert bot.log == [{"role": "system", "content": ChatBot.SYSTEM_CONTENT}]
+    assert bot.log == ChatBot.SYSTEM_ROLE
     bot.load(tmp_file)
     assert bot.log == patched_bot.log
 
@@ -59,10 +58,9 @@ def test_load(tmp_path, patched_bot):
 def test_clear(patched_bot):
     what_user_said = "Hello, world"
     patched_bot.respond(what_user_said)
-    assert patched_bot.log == [
-        {"role": "system", "content": ChatBot.SYSTEM_CONTENT},
+    assert patched_bot.log == ChatBot.SYSTEM_ROLE + [
         {"role": "user", "content": what_user_said},
         {"role": "assistant", "content": DUMMY_CONTENT},
     ]
     patched_bot.clear()
-    assert patched_bot._log == [{"role": "system", "content": ChatBot.SYSTEM_CONTENT}]
+    assert patched_bot._log == ChatBot.SYSTEM_ROLE

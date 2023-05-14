@@ -6,7 +6,7 @@ from oregpt.stdinout import StdInOut
 
 
 class ChatBot:
-    SYSTEM_CONTENT = "You are a chat bot"
+    SYSTEM_ROLE = [{"role": "system", "content": "You are a chat bot"}]
 
     def __init__(self, model: str, std_in_out: StdInOut):
         self._std_in_out = std_in_out
@@ -17,11 +17,7 @@ class ChatBot:
         self._initialize_log()
 
     def _initialize_log(self) -> None:
-        # TODO
-        # Make system role
-        # https://community.openai.com/t/the-system-role-how-it-influences-the-chat-behavior/87353
-        # https://learn.microsoft.com/ja-jp/azure/cognitive-services/openai/how-to/chatgpt?pivots=programming-language-chat-completions#system-role
-        self._log: list[dict[str, str]] = [{"role": "system", "content": self.SYSTEM_CONTENT}]
+        self._log: list[dict[str, str]] = self.SYSTEM_ROLE
 
     @property
     def log(self) -> list[dict[str, str]]:
