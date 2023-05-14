@@ -30,4 +30,3 @@ repos:
             --explicit-package-bases,
             "--config-file=pyproject.toml"
         ]
-        exclude: 'test_*'
