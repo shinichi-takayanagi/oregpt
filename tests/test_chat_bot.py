@@ -1,12 +1,14 @@
 import contextlib
 
+import pytest
 from openai import ChatCompletion
 
 from oregpt.chat_bot import ChatBot
 from oregpt.stdinout import StdInOut
 
 
-def test_chat_bot_respond(monkeypatch):
+@pytest.fixture
+def patch_bot(monkeypatch):
     def _create(*args, **kwargs):
         return [{"choices": [{"delta": {"content": "Yep"}}]}]
 
@@ -22,7 +24,24 @@ def test_chat_bot_respond(monkeypatch):
     monkeypatch.setattr(StdInOut, "_print", _print)
     monkeypatch.setattr(StdInOut, "print_assistant_thinking", _print_as_contextmanager)
 
-    bot = ChatBot("ultra-ai", StdInOut({}, lambda: "Dummy"))
 
+def test_respond(patch_bot):
+    bot = ChatBot("ultra-ai", StdInOut({}, lambda: "Dummy"))
     answer = bot.respond("Hello, world")
     assert "Yep" == answer
+
+
+def test_save():
+    pass
+
+
+def test_load():
+    pass
+
+
+def test_clear(patch_bot):
+    bot = ChatBot("ultra-ai", StdInOut({}, lambda: "Dummy"))
+    bot.respond("Hello, world")
+    assert bot._log == [{"role": "system", "content": f"You are a chat bot"}]
+    bot.clear()
+    assert bot._log == [{"role": "system", "content": f"You are a chat bot"}]
