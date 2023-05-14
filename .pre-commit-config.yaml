@@ -25,7 +25,6 @@ repos:
     hooks:
     -   id: mypy
         args: [
-            --explicit-package-bases,
-            "--config-file=pyproject.toml"
+            --explicit-package-bases
         ]
         exclude: 'test_*'
