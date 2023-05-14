@@ -10,12 +10,8 @@ from oregpt.stdinout import StdInOut
 DUMMY_CONTENT = "Yep"
 
 
-def _make_bot(name: str):
-    return ChatBot(name, StdInOut({}, lambda: "Dummy"))
-
-
 @pytest.fixture(scope="function")
-def patched_bot(monkeypatch):
+def patched_bot(monkeypatch, helpers):
     def _create(*args, **kwargs):
         return [{"choices": [{"delta": {"content": DUMMY_CONTENT}}]}]
 
@@ -30,7 +26,7 @@ def patched_bot(monkeypatch):
     monkeypatch.setattr(ChatCompletion, "create", _create)
     monkeypatch.setattr(StdInOut, "_print", _print)
     monkeypatch.setattr(StdInOut, "print_assistant_thinking", _print_as_contextmanager)
-    return ChatBot("name", StdInOut({}, lambda: "Dummy"))
+    return helpers.make_chat_bot("Yes")
 
 
 @pytest.fixture
@@ -38,8 +34,8 @@ def tmp_file(tmpdir_factory):
     return tmpdir_factory.mktemp("data").join("test.json")
 
 
-def test_initialized_property():
-    bot = _make_bot("THE AI")
+def test_initialized_property(helpers):
+    bot = helpers.make_chat_bot("THE AI")
     assert bot.model == "THE AI"
     assert bot.log == ChatBot.SYSTEM_ROLE
 
@@ -67,12 +63,12 @@ def test_save(tmp_file, patched_bot):
         ]
 
 
-def test_load(tmp_file, patched_bot):
+def test_load(tmp_file, patched_bot, helpers):
     what_user_said = "Hello, world"
     patched_bot.respond(what_user_said)
     patched_bot.save(str(tmp_file))
 
-    bot = _make_bot("THE AI")
+    bot = helpers.make_chat_bot("THE AI")
     bot.load(tmp_file)
     assert bot.log == patched_bot.log
 

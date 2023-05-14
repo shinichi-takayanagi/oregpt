@@ -28,6 +28,10 @@ class ChatBot:
     def log(self) -> list[dict[str, str]]:
         return self._log
 
+    @property
+    def std_in_out(self) -> StdInOut:
+        return self._std_in_out
+
     def respond(self, message: str) -> str:
         self._log.append({"role": "user", "content": message})
         with self._std_in_out.print_assistant_thinking():

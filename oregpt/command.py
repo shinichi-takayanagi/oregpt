@@ -6,16 +6,14 @@ from datetime import datetime
 from typing import Any, Optional, Type
 
 from oregpt.chat_bot import ChatBot
-from oregpt.stdinout import StdInOut
 
 
 class CommandBuilder:
-    classes: dict[str, Type["Command"]] = dict({})
+    command_classes: dict[str, Type["Command"]] = dict({})
 
-    def __init__(self, config: dict[str, Any], bot: ChatBot, std_in_out: StdInOut):
+    def __init__(self, config: dict[str, Any], bot: ChatBot):
         self._config = config
         self._bot = bot
-        self._std_in_out = std_in_out
 
     def build(self, message: str) -> Optional["Command"]:
         messages = message.split(" ")
@@ -23,24 +21,24 @@ class CommandBuilder:
         args = messages[1:] if len(messages) >= 2 else []
         args = list(filter(None, args))
         return (
-            class_type(self._config, self._bot, self._std_in_out, args)
-            if (class_type := self.__class__.classes.get(command))
+            class_type(self._config, self._bot, args)
+            if (class_type := CommandBuilder.command_classes.get(command))
             else None
         )
 
 
-def register(cls: Type["Command"]) -> None:
+def register(cls: Type["Command"]) -> Type["Command"]:
     for representation in cls.representations:
-        CommandBuilder.classes["/" + representation] = cls
+        CommandBuilder.command_classes["/" + representation] = cls
+    return cls
 
 
 class Command(ABC):
     representations: list[str] = []
 
-    def __init__(self, config: dict[str, Any], bot: ChatBot, std_in_out: StdInOut, args: list[str]):
+    def __init__(self, config: dict[str, Any], bot: ChatBot, args: list[str]):
         self._config = config
         self._bot = bot
-        self._std_in_out = std_in_out
         self._args = args
 
     @abstractmethod
@@ -66,7 +64,7 @@ class ClearCommand(Command):
 
     def execute(self) -> None:
         self._bot.clear()
-        self._std_in_out.print_system("Clear all conversation history")
+        self._bot.std_in_out.print_system("Clear all conversation history")
 
 
 @register
@@ -76,7 +74,7 @@ class HistoryCommand(Command):
     representations: list[str] = ["history"]
 
     def execute(self) -> None:
-        self._std_in_out.print_system(str(self._bot.log))
+        self._bot.std_in_out.print_system(str(self._bot.log))
 
 
 def _abspath(x: str) -> str:
@@ -99,7 +97,7 @@ class SaveCommand(Command):
             file_name = str(directory / datetime.now().strftime("log_%Y-%m-%d-%H-%M-%S.json"))
         directory.mkdir(parents=True, exist_ok=True)
         self._bot.save(file_name)
-        self._std_in_out.print_system(f"Save all conversation history in {file_name}")
+        self._bot.std_in_out.print_system(f"Save all conversation history in {file_name}")
 
 
 @register
@@ -111,11 +109,11 @@ class LoadCommand(Command):
     def execute(self) -> None:
         print(self._args)
         if len(self._args) != 1:
-            self._std_in_out.print_system("Loaded file was not specified as an argument")
+            self._bot.std_in_out.print_system("Loaded file was not specified as an argument")
             return
         file_name = _abspath(self._args[0])
         self._bot.load(file_name)
-        self._std_in_out.print_system(f"Loaded chat history from {file_name}")
+        self._bot.std_in_out.print_system(f"Loaded chat history from {file_name}")
 
 
 @register
@@ -125,5 +123,5 @@ class HelpCommand(Command):
     representations: list[str] = ["help"]
 
     def execute(self) -> None:
-        for k, v in CommandBuilder.classes.items():
-            self._std_in_out.print_system(f"{k}: {v.__doc__}")
+        for k, v in CommandBuilder.command_classes.items():
+            self._bot.std_in_out.print_system(f"{k}: {v.__doc__}")
