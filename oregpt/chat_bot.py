@@ -1,4 +1,5 @@
 import json
+from copy import deepcopy
 
 import openai
 
@@ -17,7 +18,11 @@ class ChatBot:
         self._initialize_log()
 
     def _initialize_log(self) -> None:
-        self._log: list[dict[str, str]] = self.SYSTEM_ROLE
+        self._log: list[dict[str, str]] = deepcopy(ChatBot.SYSTEM_ROLE)
+
+    @property
+    def model(self) -> str:
+        return self._model
 
     @property
     def log(self) -> list[dict[str, str]]:
