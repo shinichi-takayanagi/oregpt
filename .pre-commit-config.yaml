@@ -24,9 +24,8 @@ repos:
     rev: v1.2.0
     hooks:
     -   id: mypy
-        pass_filenames: false
         args: [
-            "oregpt/**/*.py",
             --explicit-package-bases,
             "--config-file=pyproject.toml"
         ]
+        exclude: 'test_*'

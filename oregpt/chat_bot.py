@@ -6,6 +6,8 @@ from oregpt.stdinout import StdInOut
 
 
 class ChatBot:
+    SYSTEM_CONTENT = "You are a chat bot"
+
     def __init__(self, model: str, std_in_out: StdInOut):
         self._std_in_out = std_in_out
         # Model list: gpt-4, gpt-4-0314, gpt-4-32k, gpt-4-32k-0314, gpt-3.5-turbo, gpt-3.5-turbo-0301
@@ -14,16 +16,16 @@ class ChatBot:
 
         self._initialize_log()
 
-    @property
-    def log(self) -> list[dict[str, str]]:
-        return self._log
-
     def _initialize_log(self) -> None:
         # TODO
         # Make system role
         # https://community.openai.com/t/the-system-role-how-it-influences-the-chat-behavior/87353
         # https://learn.microsoft.com/ja-jp/azure/cognitive-services/openai/how-to/chatgpt?pivots=programming-language-chat-completions#system-role
-        self._log: list[dict[str, str]] = [{"role": "system", "content": f"You are a chat bot"}]
+        self._log: list[dict[str, str]] = [{"role": "system", "content": self.SYSTEM_CONTENT}]
+
+    @property
+    def log(self) -> list[dict[str, str]]:
+        return self._log
 
     def respond(self, message: str) -> str:
         self._log.append({"role": "user", "content": message})
