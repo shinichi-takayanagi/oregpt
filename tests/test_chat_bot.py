@@ -19,10 +19,10 @@ def test_initialized_property(helpers):
 def test_respond_and_log(patched_bot):
     what_user_said = "Hello, world"
     assert patched_bot.log == ChatBot.SYSTEM_ROLE
-    assert DUMMY_CONTENT == patched_bot.respond(what_user_said)
+    assert pytest.DUMMY_CONTENT == patched_bot.respond(what_user_said)
     assert patched_bot.log == ChatBot.SYSTEM_ROLE + [
         {"role": "user", "content": what_user_said},
-        {"role": "assistant", "content": DUMMY_CONTENT},
+        {"role": "assistant", "content": pytest.DUMMY_CONTENT},
     ]
 
 
@@ -35,7 +35,7 @@ def test_save(tmp_file, patched_bot):
         assert patched_bot.log == json.load(file)
         assert patched_bot.log == ChatBot.SYSTEM_ROLE + [
             {"role": "user", "content": what_user_said},
-            {"role": "assistant", "content": DUMMY_CONTENT},
+            {"role": "assistant", "content": pytest.DUMMY_CONTENT},
         ]
 
 
@@ -54,7 +54,7 @@ def test_clear(patched_bot):
     patched_bot.respond(what_user_said)
     assert patched_bot.log == ChatBot.SYSTEM_ROLE + [
         {"role": "user", "content": what_user_said},
-        {"role": "assistant", "content": DUMMY_CONTENT},
+        {"role": "assistant", "content": pytest.DUMMY_CONTENT},
     ]
     patched_bot.clear()
     assert patched_bot._log == ChatBot.SYSTEM_ROLE

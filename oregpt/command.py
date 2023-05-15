@@ -27,6 +27,8 @@ class CommandBuilder:
         )
 
     def looks_like_command(self, message: str) -> bool:
+        if len(message) == 0:
+            return False
         return "/" == message[0]
 
 
