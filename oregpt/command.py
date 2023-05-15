@@ -26,6 +26,9 @@ class CommandBuilder:
             else None
         )
 
+    def looks_like_command(self, message: str) -> bool:
+        return "/" == message[0]
+
 
 def register(cls: Type["Command"]) -> Type["Command"]:
     for representation in cls.representations:

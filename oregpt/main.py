@@ -47,7 +47,12 @@ def main() -> int:
             if command := command_builder.build(message):
                 command.execute()
             else:
-                bot.respond(message)
+                if command_builder.looks_like_command(message):
+                    std_in_out.print_system("Invalid command. Valid commands are as the following:")
+                    if help := command_builder.build("/help"):
+                        help.execute()
+                else:
+                    bot.respond(message)
     except KeyboardInterrupt:
         return 0
     except Exception as e:

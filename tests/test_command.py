@@ -12,11 +12,21 @@ from oregpt.command import (
 )
 
 
-def test_command_builder(helpers):
+def test_command_builder_build(helpers):
     command_builder = CommandBuilder({}, helpers.make_chat_bot("Yahoo"))
     for command_type in [ExitCommand, ClearCommand, HistoryCommand, SaveCommand, LoadCommand, HelpCommand]:
         for representation in command_type.representations:
             assert isinstance(command_builder.build(f"/{representation}"), command_type)
+
+
+def test_command_builder_looks_like_command(helpers):
+    command_builder = CommandBuilder({}, helpers.make_chat_bot("Yahoo"))
+    assert command_builder.looks_like_command("/hoge hoge") == True
+    assert command_builder.looks_like_command("/hoge") == True
+    assert command_builder.looks_like_command("/") == True
+    assert command_builder.looks_like_command("hoge hoge") == False
+    assert command_builder.looks_like_command("hoge") == False
+    assert command_builder.looks_like_command("") == False
 
 
 def test_exit_command(patched_bot):
