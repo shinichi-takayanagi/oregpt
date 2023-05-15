@@ -39,7 +39,7 @@ def main() -> int:
     initialize_open_ai_key(config["openai"])
     std_in_out = StdInOut(config["character"], lambda: "To exit, type q, quit, exit, or Ctrl + C")
     bot = ChatBot(config["openai"]["model"], std_in_out)
-    command_builder = CommandBuilder(config, bot, std_in_out)
+    command_builder = CommandBuilder(config, bot)
 
     try:
         while True:
