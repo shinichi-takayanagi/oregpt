@@ -1,6 +1,5 @@
 import json
-import pathlib
-from datetime import datetime
+from copy import deepcopy
 
 import openai
 
@@ -8,6 +7,8 @@ from oregpt.stdinout import StdInOut
 
 
 class ChatBot:
+    SYSTEM_ROLE = [{"role": "system", "content": "You are a chat bot"}]
+
     def __init__(self, model: str, std_in_out: StdInOut):
         self._std_in_out = std_in_out
         # Model list: gpt-4, gpt-4-0314, gpt-4-32k, gpt-4-32k-0314, gpt-3.5-turbo, gpt-3.5-turbo-0301
@@ -16,17 +17,20 @@ class ChatBot:
 
         self._initialize_log()
 
+    def _initialize_log(self) -> None:
+        self._log: list[dict[str, str]] = deepcopy(ChatBot.SYSTEM_ROLE)
+
+    @property
+    def model(self) -> str:
+        return self._model
+
     @property
     def log(self) -> list[dict[str, str]]:
         return self._log
 
-    def _initialize_log(self) -> None:
-        # TODO
-        # Make system role
-        # https://community.openai.com/t/the-system-role-how-it-influences-the-chat-behavior/87353
-        # https://learn.microsoft.com/ja-jp/azure/cognitive-services/openai/how-to/chatgpt?pivots=programming-language-chat-completions#system-role
-        # self._log = [{"role": "system", "content": f"You are a chat bot."}]
-        self._log: list[dict[str, str]] = []
+    @property
+    def std_in_out(self) -> StdInOut:
+        return self._std_in_out
 
     def respond(self, message: str) -> str:
         self._log.append({"role": "user", "content": message})
@@ -49,13 +53,14 @@ class ChatBot:
         self._log.append({"role": "assistant", "content": content})
         return content
 
-    def save(self, directory: str) -> str:
-        path = pathlib.Path(directory)
-        path.mkdir(parents=True, exist_ok=True)
-        file_name = str(path / datetime.now().strftime("log_%Y-%m-%d-%H-%M-%S.json"))
+    def save(self, file_name: str) -> str:
         with open(file_name, "w", encoding="utf-8") as file:
             json.dump(self._log, file, indent=4, ensure_ascii=False)
         return file_name
+
+    def load(self, file_name: str) -> None:
+        with open(file_name, "r", encoding="utf-8") as file:
+            self._log = json.load(file)
 
     def clear(self) -> None:
         self._initialize_log()

@@ -16,7 +16,11 @@ class Character:
 
 class StdInOut:
     def __init__(self, config: dict[str, Any], bottom_toolbar: Optional[AnyFormattedText]):
-        self._characters: dict[str, Character] = {}
+        self._characters: dict[str, Character] = {
+            "user": Character("Me", "#00BEFE"),
+            "assistant": Character("AI", "#87CEEB"),
+            "system": Character("System", "#cc0000"),
+        }
         for key, value in config.items():
             self._characters[key] = Character(**value)
         self._bottom_toolbar = bottom_toolbar
