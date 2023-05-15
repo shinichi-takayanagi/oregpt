@@ -61,11 +61,11 @@ character:
 ## Supported commands on chat
 |  Command  |  Description  |
 | ---- | ---- |
-| `/exit`   | Exit from this chat tool |
-| `/quit    | Exit from this chat tool |
-| `/q       | Exit from this chat tool |
-| `/clear   | Clear chat history all |
-| `/history | Show chat history in json format |
-| `/save    | Save chat hisotry in json format |
-| `/load    | Load chat hisotry from a json file |
-| `/help    | Show all commands which you can use in this chat tool |
+| `/exit`    | Exit from this chat tool |
+| `/quit`    | Exit from this chat tool |
+| `/q`       | Exit from this chat tool |
+| `/clear`   | Clear chat history all |
+| `/history` | Show chat history in json format |
+| `/save`    | Save chat hisotry in json format |
+| `/load`    | Load chat hisotry from a json file |
+| `/help`    | Show all commands which you can use in this chat tool |

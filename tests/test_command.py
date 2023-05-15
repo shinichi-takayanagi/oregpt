@@ -29,4 +29,4 @@ def test_clear_command(patched_bot):
     cl = ClearCommand({}, patched_bot, [])
     patched_bot.respond("Hi, bot-san")
     cl.execute()
-    patched_bot.log == ChatBot.SYSTEM_ROLE
+    assert patched_bot.log == ChatBot.SYSTEM_ROLE
