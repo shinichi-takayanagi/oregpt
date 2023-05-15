@@ -8,7 +8,7 @@
 A tiny GPT CLI tool.
 You can chat with the GPT model developped by OpenAI and save the conversation as json.
 
-![oregpt](https://user-images.githubusercontent.com/24406372/236609166-0f2385b1-fd9e-4810-b80d-c19c44d13411.gif)
+<img src="https://github.com/shinichi-takayanagi/oregpt/assets/24406372/91969861-9f29-4c81-9505-620ef5567a5b" width="800px">
 
 ## Installation
 ### Get your own OpenAI API Key
@@ -32,6 +32,20 @@ Once you have installed oregpt, you can run it by typing:
 ```bash
 $ oregpt
 ```
+
+## Supported commands on chat
+Commands such as saving and loading conversations are available as the following:
+
+|  Command  |  Description  |
+| ---- | ---- |
+| `/exit`    | Exit from this chat tool |
+| `/quit`    | Exit from this chat tool |
+| `/q`       | Exit from this chat tool |
+| `/clear`   | Clear chat history all |
+| `/history` | Show chat history in json format |
+| `/save`    | Save chat hisotry in json format |
+| `/load`    | Load chat hisotry from a json file |
+| `/help`    | Show all commands which you can use in this chat tool |
 
 ## Configuration
 You can specify the place of conversation `log`,
@@ -57,15 +71,3 @@ character:
         name: System
         style: "#cc0000"
 ```
-
-## Supported commands on chat
-|  Command  |  Description  |
-| ---- | ---- |
-| `/exit`   | Exit from this chat tool |
-| `/quit    | Exit from this chat tool |
-| `/q       | Exit from this chat tool |
-| `/clear   | Clear chat history all |
-| `/history | Show chat history in json format |
-| `/save    | Save chat hisotry in json format |
-| `/load    | Load chat hisotry from a json file |
-| `/help    | Show all commands which you can use in this chat tool |

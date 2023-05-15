@@ -37,7 +37,7 @@ def initialize_open_ai_key(config: dict[str, Any]) -> None:
 def main() -> int:
     config = load_config()
     initialize_open_ai_key(config["openai"])
-    std_in_out = StdInOut(config["character"], lambda: "To exit, type q, quit, exit, or Ctrl + C")
+    std_in_out = StdInOut(config["character"], lambda: "To exit, type /q, /quit, /exit, or Ctrl + C")
     bot = ChatBot(config["openai"]["model"], std_in_out)
     command_builder = CommandBuilder(config, bot)
 
@@ -47,7 +47,11 @@ def main() -> int:
             if command := command_builder.build(message):
                 command.execute()
             else:
-                bot.respond(message)
+                if command_builder.looks_like_command(message):
+                    std_in_out.print_system("Invalid command. Valid commands are as the following:")
+                    command_builder.build("/help").execute()  # type: ignore
+                else:
+                    bot.respond(message)
     except KeyboardInterrupt:
         return 0
     except Exception as e:

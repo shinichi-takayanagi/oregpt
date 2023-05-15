@@ -8,6 +8,7 @@ from oregpt.stdinout import StdInOut
 
 
 def pytest_configure():
+    # https://stackoverflow.com/questions/44441929/how-to-share-global-variables-between-tests
     pytest.DUMMY_CONTENT = "Yep"
 
 

@@ -90,6 +90,8 @@ testpaths = [
 console_output_style = "progress"
 log_cli = true
 
+
+# === Mypy ===
 [tool.mypy]
 strict = true
 scripts_are_modules = true
