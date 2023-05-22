@@ -88,7 +88,7 @@ def _abspath(x: str) -> str:
 
 @register
 class SaveCommand(Command):
-    """Save chat hisotry in json format"""
+    """Save chat history in json format"""
 
     representations: list[str] = ["save"]
 
@@ -107,7 +107,7 @@ class SaveCommand(Command):
 
 @register
 class LoadCommand(Command):
-    """Load chat hisotry from a json file"""
+    """Load chat history from a json file"""
 
     representations: list[str] = ["load"]
 

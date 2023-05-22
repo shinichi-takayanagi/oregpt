@@ -43,8 +43,8 @@ Commands such as saving and loading conversations are available as the following
 | `/q`       | Exit from this chat tool |
 | `/clear`   | Clear chat history all |
 | `/history` | Show chat history in json format |
-| `/save`    | Save chat hisotry in json format |
-| `/load`    | Load chat hisotry from a json file |
+| `/save`    | Save chat history in json format |
+| `/load`    | Load chat history from a json file |
 | `/help`    | Show all commands which you can use in this chat tool |
 
 ## Configuration
