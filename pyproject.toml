@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "oregpt"
-version = "0.1.3"
+version = "0.2.0"
 description = "A tiny GPT CLI tool"
 authors = ["Shinichi Takayanagi <shinichi.takayanagi@gmail.com>"]
 homepage = "https://github.com/shinichi-takayanagi/oregpt"
