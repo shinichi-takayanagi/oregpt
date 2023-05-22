@@ -7,22 +7,24 @@ from oregpt.stdinout import StdInOut
 
 
 class ChatBot:
-    SYSTEM_ROLE = [{"role": "system", "content": "You are a chat bot"}]
-
-    def __init__(self, model: str, std_in_out: StdInOut):
+    def __init__(self, model: str, assistant_role: str, std_in_out: StdInOut):
         self._std_in_out = std_in_out
         # Model list: gpt-4, gpt-4-0314, gpt-4-32k, gpt-4-32k-0314, gpt-3.5-turbo, gpt-3.5-turbo-0301
         # https://platform.openai.com/docs/models/overview
         self._model = model
-
+        self._assistant_role = [{"role": "system", "content": assistant_role}]
         self._initialize_log()
 
     def _initialize_log(self) -> None:
-        self._log: list[dict[str, str]] = deepcopy(ChatBot.SYSTEM_ROLE)
+        self._log: list[dict[str, str]] = deepcopy(self._assistant_role)
 
     @property
     def model(self) -> str:
         return self._model
+
+    @property
+    def assistant_role(self) -> list[dict[str, str]]:
+        return deepcopy(self._assistant_role)
 
     @property
     def log(self) -> list[dict[str, str]]:
