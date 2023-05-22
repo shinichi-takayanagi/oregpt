@@ -33,6 +33,17 @@ Once you have installed oregpt, you can run it by typing:
 $ oregpt
 ```
 
+There are a few options:
+```bash
+$ oregpt --help
+Usage: oregpt [OPTIONS]
+
+Options:
+  -m, --model_name TEXT      Model name in OpenAI (e.g, gpt-3.5-turbo, gpt-4)
+  -a, --assistant_role TEXT  Role setting for Assistant (AI)
+  --help                     Show this message and exit.
+```
+
 ## Supported commands on chat
 Commands such as saving and loading conversations are available as the following:
 
@@ -64,6 +75,7 @@ character:
     user:
         name: Me
         style: "#00BEFE"
+        role: "You are a chat bot"
     assistant:
         name: AI
         style: "#87CEEB"
