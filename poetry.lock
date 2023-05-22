@@ -969,18 +969,6 @@ slack = ["slack-sdk"]
 telegram = ["requests"]
 
 [[package]]
-name = "types-click"
-version = "7.1.8"
-description = "Typing stubs for click"
-category = "dev"
-optional = false
-python-versions = "*"
-files = [
-    {file = "types-click-7.1.8.tar.gz", hash = "sha256:b6604968be6401dc516311ca50708a0a28baa7a0cb840efd7412f0dbbff4e092"},
-    {file = "types_click-7.1.8-py3-none-any.whl", hash = "sha256:8cb030a669e2e927461be9827375f83c16b8178c365852c060a34e24871e7e81"},
-]
-
-[[package]]
 name = "typing-extensions"
 version = "4.5.0"
 description = "Backported and Experimental Type Hints for Python 3.7+"
@@ -1133,4 +1121,4 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "75e2fa0d2afa8a050aa3706cb7d32cd1563df415b9fd6180c85afec292995741"
+content-hash = "45493e3694bfda018541e3a28f77173aef143a8961d180cce01a9e6a9f0d0490"
