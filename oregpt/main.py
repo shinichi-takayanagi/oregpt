@@ -2,7 +2,7 @@ import os
 import pathlib
 import shutil
 from enum import Enum
-from typing import Any
+from typing import Any, Optional
 
 import click
 import openai
@@ -41,15 +41,25 @@ class Status(Enum):
     BOT = 2
 
 
+def prefer_left(lhs: str, rhs: Optional[str]) -> str:
+    if lhs != "":
+        return lhs
+    if rhs is not None:
+        return rhs
+    raise Exception("Set as an argument or in ~/.config/oregpt/config.yml")
+
+
 # Add "type: ignore" to avoid this https://github.com/python/typeshed/issues/6156
 @click.command()  # type: ignore
 @click.option("--model_name", "-m", type=str, help="Model name in OpenAI (e.g, gpt-3.5-turbo, gpt-4)", default="")  # type: ignore
-def main(model_name: str) -> int:
+@click.option("--assistant_role", "-a", type=str, help="Role setting for Assistant (AI)", default="")  # type: ignore
+def main(model_name: str, assistant_role: str) -> int:
     config = load_config()
     initialize_open_ai_key(config["openai"])
-    model_name = config["openai"]["model"] if model_name == "" else model_name
+    model_name = prefer_left(model_name, config["openai"].get("model"))
+    assistant_role = prefer_left(assistant_role, config["character"]["assistant"].get("role"))
     std_in_out = StdInOut(config["character"], lambda: "To exit, type /q, /quit, /exit, or Ctrl + C")
-    bot = ChatBot(model_name, std_in_out)
+    bot = ChatBot(model_name, assistant_role, std_in_out)
     command_builder = CommandBuilder(config, bot)
 
     while True:

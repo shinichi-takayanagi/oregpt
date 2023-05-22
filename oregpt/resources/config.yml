@@ -4,12 +4,13 @@ openai:
 # You can also specify OpenAI's API key here
 #     api_key: <your-api-key>
 character:
-    user:
-        name: Me
-        style: "#00BEFE"
     assistant:
         name: AI
         style: "#87CEEB"
+        role: "You are a chat bot"
+    user:
+        name: Me
+        style: "#00BEFE"
     system:
         name: System
         style: "#cc0000"
