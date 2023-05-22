@@ -23,6 +23,10 @@ class ChatBot:
         return self._model
 
     @property
+    def assistant_role(self) -> list[dict[str, str]]:
+        return deepcopy(self._assistant_role)
+
+    @property
     def log(self) -> list[dict[str, str]]:
         return self._log
 

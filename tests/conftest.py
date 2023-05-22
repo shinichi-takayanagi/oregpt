@@ -20,8 +20,8 @@ class Helpers:
         return StdInOut({}, lambda: "Dummy")
 
     @staticmethod
-    def make_chat_bot(name: str):
-        return ChatBot(name, Helpers.make_std_in_out())
+    def make_chat_bot(name: str, role: str):
+        return ChatBot(name, role, Helpers.make_std_in_out())
 
 
 @pytest.fixture
@@ -45,4 +45,4 @@ def patched_bot(monkeypatch, helpers):
     monkeypatch.setattr(ChatCompletion, "create", _create)
     monkeypatch.setattr(StdInOut, "_print", _print)
     monkeypatch.setattr(StdInOut, "print_assistant_thinking", _print_as_contextmanager)
-    return helpers.make_chat_bot("Yes")
+    return helpers.make_chat_bot("THE AI", "You are a great chat bot")

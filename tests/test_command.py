@@ -1,6 +1,5 @@
 import pytest
 
-from oregpt.chat_bot import ChatBot
 from oregpt.command import (
     ClearCommand,
     CommandBuilder,
@@ -13,14 +12,14 @@ from oregpt.command import (
 
 
 def test_command_builder_build(helpers):
-    command_builder = CommandBuilder({}, helpers.make_chat_bot("Yahoo"))
+    command_builder = CommandBuilder({}, helpers.make_chat_bot("Yahoo", "You are a bot"))
     for command_type in [ExitCommand, ClearCommand, HistoryCommand, SaveCommand, LoadCommand, HelpCommand]:
         for representation in command_type.representations:
             assert isinstance(command_builder.build(f"/{representation}"), command_type)
 
 
 def test_command_builder_looks_like_command(helpers):
-    command_builder = CommandBuilder({}, helpers.make_chat_bot("Yahoo"))
+    command_builder = CommandBuilder({}, helpers.make_chat_bot("Yahoo", "You are a bot"))
     assert command_builder.looks_like_command("/hoge hoge") == True
     assert command_builder.looks_like_command("/hoge") == True
     assert command_builder.looks_like_command("/") == True
@@ -39,4 +38,4 @@ def test_clear_command(patched_bot):
     cl = ClearCommand({}, patched_bot, [])
     patched_bot.respond("Hi, bot-san")
     cl.execute()
-    assert patched_bot.log == ChatBot.SYSTEM_ROLE
+    assert patched_bot.log == patched_bot.assistant_role
