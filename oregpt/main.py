@@ -47,27 +47,22 @@ def prefer_left(lhs: str, rhs: Optional[str]) -> str:
         return lhs
     if rhs is not None:
         return rhs
-    raise Exception("Set as an argument or in ~/.config/oregpt/config.yml")
-
-
-def print_version(ctx: click.Context, param: click.Parameter, value: Any) -> None:
-    if not value or ctx.resilient_parsing:
-        return
-    version = pkg_resources.get_distribution("oregpt").version
-    click.echo(version)
-    ctx.exit()
+    raise Exception("Set as an argument or write in ~/.config/oregpt/config.yml")
 
 
 # Add "type: ignore" to avoid this https://github.com/python/typeshed/issues/6156
 @click.command()  # type: ignore
-@click.option("--version", "-v", is_flag=True, callback=print_version, is_eager=True)  # type: ignore
+@click.version_option(pkg_resources.get_distribution("oregpt").version, "-V", "-v", "--version", message="%(version)s")  # type: ignore
 @click.option("--model_name", "-m", type=str, help="Model name in OpenAI (e.g, gpt-3.5-turbo, gpt-4)", default="")  # type: ignore
 @click.option("--assistant_role", "-a", type=str, help="Role setting for Assistant (AI)", default="")  # type: ignore
 def main(model_name: str, assistant_role: str) -> int:
     config = load_config()
     initialize_open_ai_key(config["openai"])
-    model_name = prefer_left(model_name, config["openai"].get("model"))
-    assistant_role = prefer_left(assistant_role, config["character"]["assistant"].get("role"))
+    model_name = prefer_left(model_name, config["openai"].get("model", "gpt-3.5-turbo"))
+    assistant_role = prefer_left(
+        assistant_role,
+        config["character"]["assistant"].get("role", "You are the best personal assistant in this world"),
+    )
     std_in_out = StdInOut(config["character"], lambda: "To exit, type /q, /quit, /exit, or Ctrl + C")
     bot = ChatBot(model_name, assistant_role, std_in_out)
     command_builder = CommandBuilder(config, bot)
