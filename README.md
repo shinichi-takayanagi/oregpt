@@ -39,6 +39,7 @@ $ oregpt --help
 Usage: oregpt [OPTIONS]
 
 Options:
+  -V, -v, --version          Show the version and exit.
   -m, --model_name TEXT      Model name in OpenAI (e.g, gpt-3.5-turbo, gpt-4)
   -a, --assistant_role TEXT  Role setting for Assistant (AI)
   --help                     Show this message and exit.
