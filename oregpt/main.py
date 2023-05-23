@@ -6,6 +6,7 @@ from typing import Any, Optional
 
 import click
 import openai
+import pkg_resources
 import yaml
 
 from oregpt.chat_bot import ChatBot
@@ -49,8 +50,17 @@ def prefer_left(lhs: str, rhs: Optional[str]) -> str:
     raise Exception("Set as an argument or in ~/.config/oregpt/config.yml")
 
 
+def print_version(ctx: click.Context, param: click.Parameter, value: Any) -> None:
+    if not value or ctx.resilient_parsing:
+        return
+    version = pkg_resources.get_distribution("oregpt").version
+    click.echo(version)
+    ctx.exit()
+
+
 # Add "type: ignore" to avoid this https://github.com/python/typeshed/issues/6156
 @click.command()  # type: ignore
+@click.option("--version", "-v", is_flag=True, callback=print_version, is_eager=True)  # type: ignore
 @click.option("--model_name", "-m", type=str, help="Model name in OpenAI (e.g, gpt-3.5-turbo, gpt-4)", default="")  # type: ignore
 @click.option("--assistant_role", "-a", type=str, help="Role setting for Assistant (AI)", default="")  # type: ignore
 def main(model_name: str, assistant_role: str) -> int:

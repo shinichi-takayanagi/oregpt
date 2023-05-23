@@ -75,10 +75,10 @@ character:
     user:
         name: Me
         style: "#00BEFE"
-        role: "You are a chat bot"
     assistant:
         name: AI
         style: "#87CEEB"
+        role: "You are a chat bot"
     system:
         name: System
         style: "#cc0000"
