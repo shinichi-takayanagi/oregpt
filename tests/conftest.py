@@ -1,6 +1,8 @@
 import contextlib
+import pathlib
 
 import pytest
+import yaml
 from openai import ChatCompletion
 
 from oregpt.chat_bot import ChatBot
@@ -17,7 +19,11 @@ def pytest_configure():
 class Helpers:
     @staticmethod
     def make_std_in_out():
-        return StdInOut({}, lambda: "Dummy")
+        config_file = pathlib.Path(__file__).parent.parent.resolve() / "oregpt/resources/config.yml"
+        with open(config_file, "r") as file:
+            config = yaml.load(file, Loader=yaml.FullLoader)
+        print(config)
+        return StdInOut(config["character"], lambda: "Dummy")
 
     @staticmethod
     def make_chat_bot(name: str, role: str):
